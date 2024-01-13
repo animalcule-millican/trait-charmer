@@ -1,0 +1,7 @@
+universe = scheduler
+executable = /home/glbrc.org/millican/repos/trait-charmer/prep-ref_snek.sh
+error = /home/glbrc.org/millican/repos/trait-charmer/log/prep-ref_snek.err
+log = /home/glbrc.org/millican/repos/trait-charmer/log/prep-ref_snek.log
+output = /home/glbrc.org/millican/repos/trait-charmer/log/prep-ref_snek.out
+batch_name = prep-ref_snek.$(Cluster)
+queue

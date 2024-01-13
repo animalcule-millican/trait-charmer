@@ -1,0 +1,11 @@
+taxa: ['archaea', 'bacteria']
+class_taxa: ['plant', 'viral','fungi','protozoa','invertebrate']
+ref_taxa: ['archaea', 'bacteria']
+database: ['refseq', 'genbank']
+working_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/modules/prep-ref"
+reference_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference"
+target_database: ["Competitive_Fitness",'Ecosystem_Service',"Plant_Colonization","Stress_Control", "eps_operon_db", "nitrogen-cycle_db"]
+target_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/database/pgp"
+index: ['1','2','3','4','5','6','7','8','9','0']
+reference_file_path: ["/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/genome"]
+genome_file_index: ["aa", "ag", "am", "as", "ay", "be", "bk", "bq", "bw", "ab", "ah", "an", "at", "az", "bf", "bl", "br", "bx", "ac", "ai", "ao", "au", "ba", "bg", "bm", "bs", "ad", "aj", "ap", "av", "bb", "bh", "bn", "bt", "ae", "ak", "aq", "aw", "bc", "bi", "bo", "bu", "af", "al", "ar", "ax", "bd", "bj", "bp", "bv"]

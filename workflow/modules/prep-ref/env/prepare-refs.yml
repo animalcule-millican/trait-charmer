@@ -1,0 +1,17 @@
+name: prepare-reference
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pandas
+  - numpy
+  - taxopy
+  - biopython
+  - requests
+variables:
+  - NCBI_API_KEY: '1f5bf9ae3cc3fd00c7fb07b10597be445809'
+  - NCBI_EMAIL: 'millican.m@gmail.com'
+  - PYTHONPATH: $CONDA_PREFIX/lib/python3.12/site-packages:$CONDA_PREFIX/lib/python3.1/site-packages

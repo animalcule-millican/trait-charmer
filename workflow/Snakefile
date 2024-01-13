@@ -1,0 +1,20 @@
+"""
+Snakemake pipeline for the quantification of plant-growth promoting bacterial traits in metagenome samples.
+    Steps:
+        - Prepare reference databases
+            - Download data:
+                - Download bacterial and archaeal genomes from NCBI and GTDB
+                - Download bacterial and archaeal predicted protein orf sequences from NCBI and GTDB
+                - Download bacterial and archaeal 16S predicted gene orf sequences from NCBI and GTDB
+            - Generate taxonomy lineage files for genomes
+            - Create sketches of genomes
+            - Annotate PGP-traits for predicted protein orf sequences.
+                - Remove orfs that are not annotated as PGP-traits.
+        - Preprocess raw metagenomic reads
+            - Quality filter reads
+            - Error correct reads
+            - Sketch reads
+        - Gather genomes
+            - Gather genomes for bacteria, archaea, plant, fungi, virus, and protozoa taxons
+            - 
+"""
