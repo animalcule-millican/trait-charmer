@@ -42,6 +42,7 @@ wildcard_constraints:
     database = "|".join(config["database"]),
     refdir = config["reference_directory"],
     index = "|".join(config["index"]),
+    genome_index = "|".join(config["genome_file_index"]),
     ref_path = "|".join(config["reference_file_path"]),
     ref_name = "|".join(ref_names),
     target_database = "|".join(config["target_database"])
@@ -49,17 +50,17 @@ wildcard_constraints:
 
 rule all:
     input:
-        expand("{refdir}/pgpt_counts/genome_reference_{index}-{target_database}.pgpt_counts.txt", refdir = config["reference_directory"], target_database = config["target_database"], index = config["index"]),
-        expand("{refdir}/taxonomy/reference_taxonomy.csv", refdir = config["reference_directory"]),
+        expand("{refdir}/pgpt_counts/genome_file_{genome_index}-{target_database}.pgpt_counts.txt", refdir = config["reference_directory"], target_database = config["target_database"], genome_index = config["genome_file_index"]),
+        #expand("{refdir}/taxonomy/reference_taxonomy.csv", refdir = config["reference_directory"]),
         #expand("{refdir}/sketch_file/genome_info_{index}.csv", refdir = config["reference_directory"], index = config["index"]),
-        expand("{refdir}/sketch/ref_sketch_{index}.zip", refdir = config["reference_directory"], index = config["index"]),
+        #expand("{refdir}/sketch/ref_sketch_{index}.zip", refdir = config["reference_directory"], index = config["index"]),
         #expand("{refdir}/database/genome_reference_{index}_DB", refdir = config["reference_directory"], index = config["index"]),
         #expand("{refdir}/tmp/gtdb_genome_name_list.txt", refdir = config["reference_directory"]),
-        expand("{refdir}/deepbgc/{ref_name}.bgc.gbk", refdir = config["reference_directory"], ref_name = ref_names),
-        expand("{refdir}/deepbgc/{ref_name}.bgc.tsv", refdir = config["reference_directory"], ref_name = ref_names),
-        expand("{refdir}/deepbgc/{ref_name}.full.gbk", refdir = config["reference_directory"], ref_name = ref_names),
-        expand("{refdir}/deepbgc/{ref_name}.pfam.tsv", refdir = config["reference_directory"], ref_name = ref_names),
-        expand("{refdir}/deepbgc/{ref_name}.antismash.json", refdir = config["reference_directory"], ref_name = ref_names)
+        ##expand("{refdir}/deepbgc/{ref_name}.bgc.gbk", refdir = config["reference_directory"], ref_name = ref_names),
+        #expand("{refdir}/deepbgc/{ref_name}.bgc.tsv", refdir = config["reference_directory"], ref_name = ref_names),
+        #expand("{refdir}/deepbgc/{ref_name}.full.gbk", refdir = config["reference_directory"], ref_name = ref_names),
+        #expand("{refdir}/deepbgc/{ref_name}.pfam.tsv", refdir = config["reference_directory"], ref_name = ref_names),
+        #expand("{refdir}/deepbgc/{ref_name}.antismash.json", refdir = config["reference_directory"], ref_name = ref_names)
        
 rule get_reports:
     input:
@@ -82,12 +83,12 @@ rule get_ncbi_files:
         "{refdir}/pkl/ncbi_{taxa}-{database}_genome_info.pkl"
     params:
         ref = config["reference_file_path"]
-    threads: 3
+    threads: 6
     resources:
-        mem_mb = 6000
+        mem_mb = 18000
     shell:
         """
-        scripts/get_ftp_files.py {input} {params.ref} {output} {threads}
+        scripts/get_ftp_files.py {input} {params.ref} {output} 
         """
 
 rule fetch_gtdb:
@@ -199,9 +200,9 @@ rule sketch_refs:
 
 rule ref_db:
     input:
-        "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/genome_files/genome_file.{index}"
+        "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/genome_files/genome_file.{genome_index}"
     output:
-        "{refdir}/database/genome_reference_{index}_DB"
+        "{refdir}/database/genome_reference_{genome_index}_DB"
     params:
         tmpdir = create_tmpdir()
     threads: 4
@@ -219,31 +220,33 @@ rule ref_db:
             }} &
         done < {input}
         wait
-        cat {params.tmpdir}/*.fna > {params.tmpdir}/genome_reference_{wildcards.index}.fna
-        mmseqs createdb {params.tmpdir}/genome_reference_{wildcards.index}.fna {output}
+        cat {params.tmpdir}/*.fna > {params.tmpdir}/genome_reference_{wildcards.genome_index}.fna
+        mmseqs createdb {params.tmpdir}/genome_reference_{wildcards.genome_index}.fna {output}
         mmseqs createindex {output} $TMPDIR/tmp --search-type 2 --translation-table 11 --threads {threads} --remove-tmp-files 1
         rm -rf {params.tmpdir}
         """
 
 rule search_refs:
     input:
-        query = "{refdir}/database/genome_reference_{index}_DB"
+        query = "{refdir}/database/genome_file.{genome_index}_db",
+        target = "{refdir}/database/pgp/{target_database}_db"
     output:
-        "{refdir}/pgpt_counts/genome_reference_{index}-{target_database}.pgpt_counts.txt"
+        "{refdir}/pgpt_counts/genome_file_{genome_index}-{target_database}.pgpt_counts.txt"
     params:
         tmpdir = create_tmpdir()
     threads: 24
     resources:
-        mem_mb = 60000
+        mem_mb = 180000
     conda:
         "trait-mapper"
     shell:
         """
         export TMPDIR={params.tmpdir}
-        target={wildcards.refdir}/database/pgp/{wildcards.target_database}_db
-        mmseqs search {input.query} $target $TMPDIR/result $TMPDIR/tmp -e 1.000E-05 --start-sens 1 --sens-steps 3 -s 7 --db-load-mode 3 --threads {threads} --remove-tmp-files 1
+        mmseqs touchdb {input.target}
+        mmseqs touchdb {input.query}
+        mmseqs search {input.query} {input.target} $TMPDIR/result $TMPDIR/tmp -e 1.000E-05 --start-sens 1 --sens-steps 3 -s 7 --db-load-mode 3 --threads {threads} --remove-tmp-files 1
         mmseqs filterdb $TMPDIR/result $TMPDIR/bestDB --extract-lines 1 --threads {threads}
-        mmseqs convertalis {input.query} $target $TMPDIR/bestDB {output} --format-mode 0 --db-load-mode 3 --format-output query,qheader,qseq,target,theader,tseq,pident,evalue --threads {threads}
+        mmseqs convertalis {input.query} {input.target} $TMPDIR/bestDB {output} --format-mode 0 --db-load-mode 3 --format-output query,qheader,qseq,target,theader,tseq,pident,evalue --threads {threads}
         rm -rf {params.tmpdir}
         """   
 
@@ -268,3 +271,36 @@ rule deepbgc:
         deepbgc pipeline -d clusterfinder_retrained -d clusterfinder_original -d clusterfinder_geneborder -d deepbgc --output "{wildcards.refdir}/deepbgc/{wildcards.ref_name}" --label clf_ret --label clf_og --label clf_gb --label deep -c product_activity -c product_class {wildcards.refdir}/genomes/{wildcards.ref_name}.fna.gz
         """
 
+rule antismash:
+    input: 
+        genome_list = "{refdir}/genome_files.txt",
+        genome_file = expand("{{refdir}}/genome_files/genome_file.{index}", index=config["index"]),
+        gtdb = "{refdir}/tmp/gtdb_genome_name_list.txt"
+    output:
+        "{refdir}/bgc/antismash/{ref_name}/{ref_name}.gbk",
+        "{refdir}/bgc/antismash/{ref_name}/{ref_name}.json"
+    threads: 24
+    resources:
+        mem_mb = 20000
+    shell:
+        """
+        antismash --skip-zip-file --allow-long-headers --clusterhmmer --tigrfam --cc-mibig --asf --cb-general --cb-knownclusters --cb-subclusters --pfam2go --rre --output-dir {wildcards.refdir}/bgc/antismash/{wildcards.ref_name} --output-basename {wildcards.ref_name} --genefinding-tool prodigal -c {threads} {wildcards.refdir}/genome/GCA_003725295.1.genomic.fna.gz
+        """
+
+rule gapseq:
+    input:
+    output:
+    conda:
+        "gapseq"
+    shell:
+        """
+        #!/bin/bash
+        source /home/glbrc.org/millican/.bashrc
+        mamba activate gapseq
+        cd /mnt/bigdata/linuxhome/millican/projects/oil/data/gapseq/samples
+        media=/mnt/bigdata/linuxhome/millican/miniconda/miniconda/envs/gapseq/bin/dat/media/ALLmed.csv
+        input=/mnt/bigdata/linuxhome/millican/projects/oil/data/proteins/samples/${1}_proteins.faa
+        gapseq find -p all -M prot $input
+        gapseq find-transport $input
+        gapseq draft -r $1-all-Reactions.tbl -t $1-Transporter.tbl -p $1-all-Pathways.tbl -c $input
+        """
