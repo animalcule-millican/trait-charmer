@@ -236,7 +236,7 @@ rule search_refs:
         tmpdir = create_tmpdir()
     threads: 24
     resources:
-        mem_mb = 180000
+        mem_mb = 500000
     conda:
         "trait-mapper"
     shell:

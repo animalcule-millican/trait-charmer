@@ -1,0 +1,7 @@
+universe = scheduler
+executable = /home/glbrc.org/millican/repos/trait-charmer/gather_genomes.sh
+error = /home/glbrc.org/millican/repos/trait-charmer/log/gather_genomes.err
+log = /home/glbrc.org/millican/repos/trait-charmer/log/gather_genomes.log
+output = /home/glbrc.org/millican/repos/trait-charmer/log/gather_genomes.out
+batch_name = gather_genomes.$(Cluster)
+queue
