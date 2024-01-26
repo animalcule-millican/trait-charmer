@@ -236,15 +236,13 @@ rule search_refs:
         tmpdir = create_tmpdir()
     threads: 24
     resources:
-        mem_mb = 500000
+        mem_mb = 200000
     conda:
         "trait-mapper"
     shell:
         """
         export TMPDIR={params.tmpdir}
-        mmseqs touchdb {input.target}
-        mmseqs touchdb {input.query}
-        mmseqs search {input.query} {input.target} $TMPDIR/result $TMPDIR/tmp -e 1.000E-05 --start-sens 1 --sens-steps 3 -s 7 --db-load-mode 3 --threads {threads} --remove-tmp-files 1
+        mmseqs search {input.query} {input.target} $TMPDIR/result $TMPDIR/tmp -e 1.000E-04 -s 3.5 --db-load-mode 3 --alignment-mode 1 --exact-kmer-matching 1 --max-accept 5 --max-rejected 5 --max-seqs 200 --threads {threads} --remove-tmp-files 1 --translation-table 11
         mmseqs filterdb $TMPDIR/result $TMPDIR/bestDB --extract-lines 1 --threads {threads}
         mmseqs convertalis {input.query} {input.target} $TMPDIR/bestDB {output} --format-mode 0 --db-load-mode 3 --format-output query,qheader,qseq,target,theader,tseq,pident,evalue --threads {threads}
         rm -rf {params.tmpdir}

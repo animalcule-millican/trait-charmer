@@ -1,0 +1,26 @@
+request_cpus = 8
+request_memory = 20GB
+executable = /home/glbrc.org/millican/repos/trait-charmer/bin/create_pgp_db_mmseq.sh
+arguments = $(dir) $(target)
+error = /home/glbrc.org/millican/repos/trait-charmer/logs/create_pgp_db_mmseq.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/logs/create_pgp_db_mmseq.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/logs/create_pgp_db_mmseq.$(Cluster)-$(ProcID).out
+notification = Always
+notify_user = millican.compute@gmail.com
+Requirements = TARGET.UidDomain == "glbrc.org" && \
+               TARGET.FileSystemDomain == "glbrc.org"
+batch_name = mmseqdb_pgp.$(Cluster)
+queue dir, target from (
+    lvl1, Competitive_Fitness
+    lvl1, Ecosystem_Service
+    lvl1, Plant_Colonization
+    lvl1, Stress_Control
+    lvl2, Abiotic_Stress
+    lvl2, Biofertilization
+    lvl2, Biotic_Stress
+    lvl2, Defensive_Strategies
+    lvl2, Adaptive_Strategies
+    lvl2, Bioremediation
+    lvl2, Colonization
+    lvl2, Resource_Strategies
+)

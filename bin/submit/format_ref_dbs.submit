@@ -1,0 +1,12 @@
+request_cpus = 1
+request_memory = 20GB
+executable = /home/glbrc.org/millican/repos/trait-charmer/bin/submit/format_ref_dbs.submit
+error = /home/glbrc.org/millican/repos/trait-charmer/logs/format_ref_dbs.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/logs/format_ref_dbs.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/logs/format_ref_dbs.$(Cluster)-$(ProcID).out
+notification = Always
+notify_user = millican.compute@gmail.com
+Requirements = TARGET.UidDomain == "glbrc.org" && \
+               TARGET.FileSystemDomain == "glbrc.org"
+batch_name = format_ref_dbs.$(Cluster)
+queue 

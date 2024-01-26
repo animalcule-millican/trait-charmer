@@ -1,0 +1,12 @@
+request_cpus = 24
+request_memory = 300GB
+executable = /home/glbrc.org/millican/repos/trait-charmer/bin/index_pgp.sh
+error = /home/glbrc.org/millican/repos/trait-charmer/logs/index_pgp.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/logs/index_pgp.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/logs/index_pgp.$(Cluster)-$(ProcID).out
+notification = Always
+notify_user = millican.compute@gmail.com
+Requirements = TARGET.UidDomain == "glbrc.org" && \
+               TARGET.FileSystemDomain == "glbrc.org"
+batch_name = index_pgp.$(Cluster)
+queue 

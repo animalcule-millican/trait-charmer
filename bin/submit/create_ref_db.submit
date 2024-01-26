@@ -1,0 +1,64 @@
+request_cpus = 12
+request_memory = 60GB
+executable = /home/glbrc.org/millican/repos/trait-charmer/bin/create_ref_db.sh
+arguments = $(target)
+error = /home/glbrc.org/millican/repos/trait-charmer/logs/create_ref_db.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/logs/create_ref_db.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/logs/create_ref_db.$(Cluster)-$(ProcID).out
+notification = Always
+notify_user = millican.compute@gmail.com
+Requirements = TARGET.UidDomain == "glbrc.org" && \
+               TARGET.FileSystemDomain == "glbrc.org"
+batch_name = create_ref_db.$(Cluster)
+queue target from (
+    genome_file.aa
+    genome_file.ag
+    genome_file.am
+    genome_file.as
+    genome_file.ay
+    genome_file.be
+    genome_file.bk
+    genome_file.bq
+    genome_file.bw
+    genome_file.ab
+    genome_file.ah
+    genome_file.an
+    genome_file.at
+    genome_file.az
+    genome_file.bf
+    genome_file.bl
+    genome_file.br
+    genome_file.bx
+    genome_file.ac
+    genome_file.ai
+    genome_file.ao
+    genome_file.au
+    genome_file.ba
+    genome_file.bg
+    genome_file.bm
+    genome_file.bs
+    genome_file.ad
+    genome_file.aj
+    genome_file.ap
+    genome_file.av
+    genome_file.bb
+    genome_file.bh
+    genome_file.bn
+    genome_file.bt
+    genome_file.ae
+    genome_file.ak
+    genome_file.aq
+    genome_file.aw
+    genome_file.bc
+    genome_file.bi
+    genome_file.bo
+    genome_file.bu
+    genome_file.af
+    genome_file.al
+    genome_file.ar
+    genome_file.ax
+    genome_file.bd
+    genome_file.bj
+    genome_file.bp
+    genome_file.bv
+)

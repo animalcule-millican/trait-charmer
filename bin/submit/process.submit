@@ -1,0 +1,7 @@
+universe = scheduler
+executable = /home/glbrc.org/millican/repos/trait-charmer/workflow/modules/process-ref/process.sh
+error = /home/glbrc.org/millican/repos/trait-charmer/log/process.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/log/process.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/log/process.$(Cluster)-$(ProcID).out
+
+queue 

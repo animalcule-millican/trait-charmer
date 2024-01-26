@@ -1,12 +1,13 @@
-taxa: ['archaea', 'bacteria']
+taxa: ['archaea', 'bacteria', 'plant', 'viral','fungi','protozoa','invertebrate']
 class_taxa: ['plant', 'viral','fungi','protozoa','invertebrate']
 ref_taxa: ['archaea', 'bacteria']
 database: ['refseq', 'genbank']
 working_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/modules/prep-ref"
-reference_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference"
+reference_directory: "/home/glbrc.org/millican/projects/Inter_BRC/reference_files"
 target_database: ["Competitive_Fitness",'Ecosystem_Service',"Plant_Colonization","Stress_Control", "eps_operon", "nitrogen-cycle"] #  
-target_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/database/pgp"
-reference_sketch: ["fungi_sigs.zip", "plant_sigs.zip", "ref_sketch_0.zip", "ref_sketch_2.zip", "ref_sketch_4.zip", "ref_sketch_6.zip", "ref_sketch_8.zip", "viral_sigs.zip", "invertebrate_sigs.zip", "protozoa_sigs.zip", "ref_sketch_1.zip", "ref_sketch_3.zip", "ref_sketch_5.zip", "ref_sketch_7.zip", "ref_sketch_9.zip"]
+target_directory: "/home/glbrc.org/millican/projects/Inter_BRC/reference_files/database/pgp"
+reference_sketch: ["fungi_sigs.zip", "plant_sigs.zip", "prokaryote_sigs.zip", "viral_sigs.zip", "invertebrate_sigs.zip", "protozoa_sigs.zip"]
+reference_sketch_list: ["fungi_sigs_list.txt", "plant_sigs_list.txt", "prokaryote_sigs_list.txt", "viral_sigs_list.txt", "invertebrate_sigs_list.txt", "protozoa_sigs_list.txt"]
 index: ['1','2','3','4','5','6','7','8','9','0']
-reference_file_path: ["/home/glbrc.org/millican/repos/trait-charmer/workflow/reference/genome"]
+reference_file_path: ["/home/glbrc.org/millican/projects/Inter_BRC/reference_files/genome"]
 genome_file_index: ["aa", "ag", "am", "as", "ay", "be", "bk", "bq", "bw", "ab", "ah", "an", "at", "az", "bf", "bl", "br", "bx", "ac", "ai", "ao", "au", "ba", "bg", "bm", "bs", "ad", "aj", "ap", "av", "bb", "bh", "bn", "bt", "ae", "ak", "aq", "aw", "bc", "bi", "bo", "bu", "af", "al", "ar", "ax", "bd", "bj", "bp", "bv"]

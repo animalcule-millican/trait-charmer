@@ -3,7 +3,7 @@ taxa: ['archaea', 'bacteria']
 class_taxa: ['plant', 'viral','fungi','protozoa','invertebrate']
 ref_taxa: ['archaea', 'bacteria']
 database: ['refseq', 'genbank']
-kmers: ['21','31','51']
+kmers: ['21'] #,'31','51'
 working_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/modules/prep-ref"
 reference_directory: "/home/glbrc.org/millican/repos/trait-charmer/workflow/reference"
 target_database: ["Competitive_Fitness",'Ecosystem_Service',"Plant_Colonization","Stress_Control", "eps_operon", "nitrogen-cycle"] #  
