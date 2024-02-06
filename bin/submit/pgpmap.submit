@@ -1,0 +1,13 @@
+request_cpus = 1
+request_memory = 64GB
+executable = /home/glbrc.org/millican/mambaforge/bin/python
+arguments = /home/glbrc.org/millican/pgp_map_gen.py
+error = /home/glbrc.org/millican/repos/trait-charmer/logs/pgpmap.$(Cluster)-$(ProcID).error
+log = /home/glbrc.org/millican/repos/trait-charmer/logs/pgpmap.$(Cluster)-$(ProcID).log
+output = /home/glbrc.org/millican/repos/trait-charmer/logs/pgpmap.$(Cluster)-$(ProcID).out
+notification = Always
+notify_user = millican.compute@gmail.com
+Requirements = TARGET.UidDomain == "glbrc.org" && \
+               TARGET.FileSystemDomain == "glbrc.org"
+batch_name = pgpmap.$(Cluster)
+queue 

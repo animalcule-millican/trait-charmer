@@ -49,9 +49,10 @@ def get_reports(database, taxa):
 def main():
     tx = sys.argv[1]
     out = sys.argv[2]
-    db = sys.argv[3]
 
-    genome_dict = get_reports(db, tx)
+    genome_dict = {}
+    for db in ["refseq", "genbank"]:
+        genome_dict.update(get_reports(db, tx))
 
     with open(out, "wb") as fh:
         pickle.dump(genome_dict, fh, protocol=pickle.HIGHEST_PROTOCOL)

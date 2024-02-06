@@ -15,7 +15,7 @@ wait
 tar -xzf $1/tmp/gtdb_genomes_reps.tar.gz -C $1/genome --strip-components=6
 wait
 
-tar -tzf $1/tmp/gtdb_genomes_reps.tar.gz | while IFS= read -r file
+find $1/genome -name "*genomic.fna.gz" | while IFS= read -r file
 do
     # Get the basename of each file and append it to the text file
     basename -s "_genomic.fna.gz" "$file" >> $1/tmp/gtdb_genome_name_list.txt

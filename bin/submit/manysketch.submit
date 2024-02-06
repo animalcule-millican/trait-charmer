@@ -1,6 +1,6 @@
 request_cpus = 16
 request_memory = 64GB
-executable = /home/glbrc.org/millican/repos/trait-charmer/workflow/modules/prep-ref/scripts/manysketch.sh
+executable = /home/glbrc.org/millican/repos/trait-charmer/bin/generate_sketch_files.sh
 arguments = $(target)
 error = /home/glbrc.org/millican/repos/trait-charmer/logs/manysketch.$(Cluster)-$(ProcID).error
 log = /home/glbrc.org/millican/repos/trait-charmer/logs/manysketch.$(Cluster)-$(ProcID).log
@@ -11,14 +11,11 @@ Requirements = TARGET.UidDomain == "glbrc.org" && \
                TARGET.FileSystemDomain == "glbrc.org"
 batch_name = manysketch.$(Cluster)
 queue target from (
-    0
-    1
-    2
-    3
-    4
-    5
-    6
-    7
-    8
-    9
+    bacteria
+    archaea
+    fungi
+    plant
+    protozoa
+    invertebrate
+    viral
 )
